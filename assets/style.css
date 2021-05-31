@@ -6,23 +6,27 @@
     );
     font-family: 'Architects Daughter', cursive;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center;
 }
 
-#timer-container, header, button, #question-container {
-    padding: 1.5rem;
+#timer-container, header, button, #question-container, #highscore-container {
+    padding: 2rem;
     margin: 2%;
     background-image: radial-gradient(
         rgb(47, 79, 79) 0%,
         rgb(112, 128, 144) 90%,
         rgb(119,136,153) 100%
     );
-    border-radius: 5rem;
+    border-radius: 50%;
     border: 1px solid rgba(38, 63, 63, 0.486);
-    display: inline-block;
     box-shadow: inset 0px 0px 10px
         rgb(36, 68, 57), 0 0 15px;
     color: paleturquoise;
     
+}
+
+header, button {
+    display: inline-block;
 }
 
 #timer-container{
@@ -60,7 +64,7 @@ button:hover {
 
 #question-container {
     clear: both;
-    display:block;
+    padding: 3rem;
     margin-top: .5%;
     margin-left: 1%;
     margin-right: 1%;
@@ -69,4 +73,34 @@ button:hover {
 #question-container button {
     margin-top: .5%;
     margin-bottom: .5%;
+}
+
+input {
+    font-size: x-large;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ol {
+    text-align: center;
+    list-style: none;
+    counter-reset: new-counter;
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: -2%;
+}
+
+ol li {
+    counter-increment: new-counter;
+}
+
+ol li::before{
+    font-size: xx-large;
+    font-weight: bolder;
+    margin: 2%;
+    content: counter(new-counter) ".";
 }
