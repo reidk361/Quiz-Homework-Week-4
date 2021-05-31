@@ -5,8 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Quiz</title>
+    <link rel="stylesheet" type="text/css" href="./assets/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
 </head>
-<body>
-    
+<body id="background">
+    <header id="header">
+        <h1>JavaScript Quiz</h1>
+        <h2 id="description">Press Start to start the Quiz</h2>
+    </header>
+    <button id="start-button" type="button">Start!</button>
+    <div id="timer-container">
+        <h2 id="timer">Timer: __ seconds left.</h2>
+    </div>
+
+    <div id="question-container">
+        <h2 id="question-text"></h2>
+        <br />
+        <ul id="answer-container">
+        </ul>
+    </div>
+    <div id="highscore-container" style="display:hide">
+        <ol id="highscore-list">
+
+        </ol>
+    </div>
+    <script type="text/javascript" src="./assets/script.js"></script>
 </body>
 </html>

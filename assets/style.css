@@ -1,0 +1,72 @@
+#background {
+    background-image:linear-gradient( 
+        rgb(47, 79, 79) 0%,
+        rgb(112, 128, 144) 75%,
+        rgb(119,136,153) 100%
+    );
+    font-family: 'Architects Daughter', cursive;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#timer-container, header, button, #question-container {
+    padding: 1.5rem;
+    margin: 2%;
+    background-image: radial-gradient(
+        rgb(47, 79, 79) 0%,
+        rgb(112, 128, 144) 90%,
+        rgb(119,136,153) 100%
+    );
+    border-radius: 5rem;
+    border: 1px solid rgba(38, 63, 63, 0.486);
+    display: inline-block;
+    box-shadow: inset 0px 0px 10px
+        rgb(36, 68, 57), 0 0 15px;
+    color: paleturquoise;
+    
+}
+
+#timer-container{
+    left: 80%;
+    display:inline-flex;
+    position: absolute;
+}
+
+button {
+    opacity: 80%;
+    padding: 1rem;
+    box-shadow: inset 0px 0px 10px
+    rgb(36, 68, 57), 0 0 5px;
+    font-size: x-large;
+    font-weight: bold;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+button:active {
+    background-image: radial-gradient(
+        rgb(47, 79, 79) 100%,
+        rgb(112, 128, 144) 10%,
+        rgb(119,136,153) 0%
+    );
+    opacity: 100%;
+    box-shadow: inset 0px 0px 10px
+    rgb(36, 68, 57), 0 0 15px;
+}
+
+button:hover {
+    opacity: 100%;
+    box-shadow: inset 0px 0px 10px
+    rgb(36, 68, 57), 0 0 15px;
+}
+
+#question-container {
+    clear: both;
+    display:block;
+    margin-top: .5%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+#question-container button {
+    margin-top: .5%;
+    margin-bottom: .5%;
+}
