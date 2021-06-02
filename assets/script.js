@@ -4,13 +4,17 @@ const header = document.getElementById("header");
 const description = document.getElementById("description");
 const questionContainer = document.getElementById("question-container");
 const questionText = document.getElementById("question-text");
-const answerContainer = document.getElementById("answer-container");
 const timer = document.getElementById("timer");
 const highscoreContainer = document.getElementById("highscore-container");
 const highscoreList = document.getElementById("highscore-list");
 const submitEl = document.getElementById("submit-button");
 const initialsEl = document.getElementById("initials-input");
 
+//Creates Unordered List element and makes its ID "answer-container"
+let answerContainer = document.createElement("ul");
+answerContainer.setAttribute("id", "answer-container");
+//Places the answer container element in a variable.
+const answerContainerEl = document.getElementById("answer-container");
 //Create list element for answers.
 let answerListEl = document.createElement("li");
 //Create button element for each answer in the answer list. 
@@ -21,21 +25,8 @@ let highscoreRecord = document.createElement("li");
 //Hide Highscore Container until game over.
 highscoreContainer.setAttribute("style","display:none");
 
-//Allow timer to count down and changes text color to red when <5sec remain. 
-function handleTimer(){
-    let sec = 60; //CHANGE BACK TO APPROPRIATE TIME WHEN DONE TESTING!
-    let time = setInterval(function(){
-        timer.textContent="Timer: " + sec + " seconds left.";
-        sec--;
-        if (sec < 5) {
-            timer.setAttribute("style","color:red;");
-        }
-        if (sec < 0) {
-            clearInterval(time);
-            handleGameOver();
-        }
-    }, 1000);
-}
+//Sets the question number to the first question. 
+let questionNum = 0;
 
 //Create a bank of questions and answers to pull from.
 const questionBank = [
@@ -53,7 +44,9 @@ const questionBank = [
     correctAnswer:"const"},
     {question: "What event allows something to change on a click?",
     answers: ["click","event.target","onClick","submit"],
-    correctAnswer:"click"}
+    correctAnswer:"click"},
+    {question: "This is the end of the Quiz. Good Job!",
+    answers: ["Placeholder."]}
 ];
 
 //Hide question container until the game starts.
@@ -61,61 +54,87 @@ questionContainer.setAttribute("style","display:none");
 
 //Create first question on start. 
 //Show question container on start. 
-function handleStartGame(event) {
+function handleStartGame() {
     startButton.remove();
     description.textContent = ("Game Start! First Question:");
     questionContainer.setAttribute("style","");
-    handleNextQuestion(0)
+    handleNextQuestion()
 }
 
-function handleNextQuestion (number) {
-    questionText.textContent = (questionBank[number].question);
-    for (let i = 0; i < 4; i++) {
-        answerListEl = document.createElement("li");
-        answerButtonEl = document.createElement("button")
-        answerButtonEl.textContent = (questionBank[number].answers[i]);
-        answerContainer.append(answerListEl);
-        answerListEl.append(answerButtonEl)
+let sec = 30;
+
+//Allow timer to count down and changes text color to red when <5sec remain. 
+function handleTimer(){
+    sec = 30; //CHANGE BACK TO APPROPRIATE TIME WHEN DONE TESTING!
+    let time = setInterval(function(){
+        timer.textContent="Timer: " + sec + " seconds left.";
+        sec--;
+        if (sec < 5) {
+            timer.setAttribute("style","color:red;");
+        }
+        if (sec < 0) {
+            clearInterval(time);
+            handleGameOver();
+        }
+        if (questionNum>4) {
+            clearInterval(time);
+        }
+    }, 1000);
+}
+
+
+
+
+//Handles the question creation. If questionNum is greater than questions, game over. 
+function handleNextQuestion () {
+    if (questionNum>4){
+        handleGameOver();
+        return;
     }
-    let userAnswer = event.target.textContent
-    if (userAnswer===questionBank[number].correctAnswer){
-        description.textContent = ("Next Question:")
-        console.log("Correct")
-        number++
-        questionText.textContent = (questionBank[number].question)
+    else if (questionNum===0){
+        questionText.textContent = (questionBank[questionNum].question);
+        questionContainer.append(answerContainer);
         for (let i = 0; i < 4; i++) {
             answerListEl = document.createElement("li");
-            answerButtonEl = document.createElement("button")
-            answerButtonEl.textContent = (questionBank[number].answers[i]);
+            answerButtonEl = document.createElement("button");
+            answerButtonEl.textContent = (questionBank[questionNum].answers[i]);
             answerContainer.append(answerListEl);
-            answerListEl.append(answerButtonEl)
+            answerListEl.append(answerButtonEl);
+            answerButtonEl.addEventListener("click", handleAnswerClick);
         }
     } else {
-        description.textContent = ("Next Question:")
-        console.log("Wrong")
-        number++
-        questionText.textContent = (questionBank[number].question)
+        questionText.textContent = (questionBank[questionNum].question);
+        let listAr = answerContainer.childNodes;
         for (let i = 0; i < 4; i++) {
-            answerListEl = document.createElement("li");
-            answerButtonEl = document.createElement("button")
-            answerButtonEl.textContent = (questionBank[number].answers[i]);
-            answerContainer.append(answerListEl);
-            answerListEl.append(answerButtonEl)
+            answerButtonEl.addEventListener("click", handleAnswerClick);
+            listAr[i].firstChild.textContent = (questionBank[questionNum].answers[i]);
         }
     }
-    
-    if (number>questionBank.length){
-        handleGameOver()
+} 
+
+
+//Handles user's input for an answer. 
+//If correct, removes old answers and goes to the next question
+//If wrong, removes 5sec and keeps them on the question. 
+function handleAnswerClick(event){
+    if (event.target.textContent===questionBank[questionNum].correctAnswer){
+        description.textContent = ("Next Question:");
+        console.log("Correct");
+        questionNum++
+        handleNextQuestion();
+    } else if ((event.target.textContent===questionBank[questionNum].correctAnswer)===false){
+        description.textContent = ("Wrong! Try again!");
+        description.setAttribute("style","color:red");
+        console.log("Wrong");
+        sec = sec-5;
     }
-
 }
-
-answerButtonEl.addEventListener("click", handleNextQuestion);
 
 function handleGameOver() {
     questionContainer.setAttribute("style","display:none")
     description.textContent = ("Game Over!");
     highscoreContainer.setAttribute("style","");
+    timer.setAttribute("style","");
 }
 
 function handleSubmit (event){
@@ -140,14 +159,13 @@ function handleSubmit (event){
         highscoreRecord.textContent=(initialsEl.value + ": " + highscoreAr[i]);
         highscoreList.append(highscoreRecord);
     }
+    localStorage.setItem(initialsEl.value, highscoreRecord)
 }
 
 //Have the start button start the timer and start the quiz on click. 
 startButton.addEventListener("click", handleStartGame);
 startButton.addEventListener("click", handleTimer);
 
+answerButtonEl.addEventListener("click", handleNextQuestion);
 
 submitEl.addEventListener("click", handleSubmit);
-
-
-
