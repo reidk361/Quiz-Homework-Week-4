@@ -39,7 +39,7 @@ const questionBank = [
     {question: "How do you alert the user?",
     answers: ["prompt", "confirm", "print", "alert"],
     correctAnswer:"alert"},
-    {question: "How do you save a variable that will not be overwritten?",
+    {question: "How do you save a variable that will NOT be overwritten?",
     answers: ["let","const","var","prompt"],
     correctAnswer:"const"},
     {question: "What event allows something to change on a click?",
@@ -52,6 +52,7 @@ questionContainer.setAttribute("style","display:none");
 
 //Create first question on start. 
 //Show question container on start. 
+//Remove start button on start. 
 function handleStartGame() {
     startButton.remove();
     description.textContent = ("Game Start! First Question:");
@@ -59,6 +60,7 @@ function handleStartGame() {
     handleNextQuestion()
 }
 
+//Sets timer time as global variable. (Needed to deduct time for wrong answers.)
 let sec = 30;
 
 //Allow timer to count down and changes text color to red when <5sec remain. Stops timer on game over conditions. 
@@ -146,14 +148,16 @@ function handleSubmit (event){
     event.preventDefault();
     let highscoreAr = []
     let timeLeft = ""
+    //Gets the numbers from the string in the timer. 
+    //This prevents the timer from reading a different time than the score. This would not be the case if I used the "sec" variable.
     if (timer.textContent.length===22){
-        timeLeft = parseInt(timer.textContent.substr(7,1));
+        timeLeft = timer.textContent.substr(7,1);
         highscoreAr.push(timeLeft);
     } else if (timer.textContent.length===23){
-        timeLeft = parseInt(timer.textContent.substr(7,2));
+        timeLeft = timer.textContent.substr(7,2);
         highscoreAr.push(timeLeft);
     } else if (timer.textContent.length===24){
-        timeLeft = parseInt(timer.textContent.substr(7,3));
+        timeLeft = timer.textContent.substr(7,3);
         highscoreAr.push(timeLeft);
     }
     highscoreAr.sort()
