@@ -45,8 +45,6 @@ const questionBank = [
     {question: "What event allows something to change on a click?",
     answers: ["click","event.target","onClick","submit"],
     correctAnswer:"click"},
-    {question: "This is the end of the Quiz. Good Job!",
-    answers: ["Placeholder."]}
 ];
 
 //Hide question container until the game starts.
@@ -63,7 +61,7 @@ function handleStartGame() {
 
 let sec = 30;
 
-//Allow timer to count down and changes text color to red when <5sec remain. 
+//Allow timer to count down and changes text color to red when <5sec remain. Stops timer on game over conditions. 
 function handleTimer(){
     sec = 30; //CHANGE BACK TO APPROPRIATE TIME WHEN DONE TESTING!
     let time = setInterval(function(){
@@ -91,6 +89,8 @@ function handleNextQuestion () {
         handleGameOver();
         return;
     }
+
+    //handles creation of initial answer container and answer buttons.
     else if (questionNum===0){
         questionText.textContent = (questionBank[questionNum].question);
         questionContainer.append(answerContainer);
@@ -102,7 +102,9 @@ function handleNextQuestion () {
             answerListEl.append(answerButtonEl);
             answerButtonEl.addEventListener("click", handleAnswerClick);
         }
-    } else {
+    }
+    //Replaces text for questions and answers. 
+    else {
         questionText.textContent = (questionBank[questionNum].question);
         let listAr = answerContainer.childNodes;
         for (let i = 0; i < 4; i++) {
@@ -130,13 +132,16 @@ function handleAnswerClick(event){
     }
 }
 
+//Hides question container. Unhides highscore Container. Returns description and timer colors to normal if they were red before. 
 function handleGameOver() {
     questionContainer.setAttribute("style","display:none")
     description.textContent = ("Game Over!");
+    description.setAttribute("style","");
     highscoreContainer.setAttribute("style","");
     timer.setAttribute("style","");
 }
 
+//Puts high score in an ordered list. 
 function handleSubmit (event){
     event.preventDefault();
     let highscoreAr = []
